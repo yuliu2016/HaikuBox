@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HaikuBoxViewController.swift
 //  HaikuBox
 //
 //  Created by Yu Liu on 2015-12-28.
@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class HaikuBoxViewController: UIViewController{
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

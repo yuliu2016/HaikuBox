@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA5700071C31F222006F72BD /* Haiku.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5700061C31F222006F72BD /* Haiku.swift */; };
 		EA57FFF51C31F1B0006F72BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57FFF41C31F1B0006F72BD /* AppDelegate.swift */; };
-		EA57FFF71C31F1B0006F72BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57FFF61C31F1B0006F72BD /* ViewController.swift */; };
+		EA57FFF71C31F1B0006F72BD /* HaikuBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57FFF61C31F1B0006F72BD /* HaikuBoxViewController.swift */; };
 		EA57FFFA1C31F1B0006F72BD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA57FFF81C31F1B0006F72BD /* Main.storyboard */; };
 		EA57FFFC1C31F1B0006F72BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA57FFFB1C31F1B0006F72BD /* Assets.xcassets */; };
 		EA57FFFF1C31F1B0006F72BD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA57FFFD1C31F1B0006F72BD /* LaunchScreen.storyboard */; };
@@ -16,9 +17,10 @@
 
 /* Begin PBXFileReference section */
 		EA5700001C31F1B0006F72BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA5700061C31F222006F72BD /* Haiku.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Haiku.swift; sourceTree = "<group>"; };
 		EA57FFF11C31F1B0006F72BD /* HaikuBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HaikuBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA57FFF41C31F1B0006F72BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EA57FFF61C31F1B0006F72BD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EA57FFF61C31F1B0006F72BD /* HaikuBoxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HaikuBoxViewController.swift; sourceTree = "<group>"; };
 		EA57FFF91C31F1B0006F72BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EA57FFFB1C31F1B0006F72BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA57FFFE1C31F1B0006F72BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,12 +56,13 @@
 		EA57FFF31C31F1B0006F72BD /* HaikuBox */ = {
 			isa = PBXGroup;
 			children = (
-				EA57FFF41C31F1B0006F72BD /* AppDelegate.swift */,
-				EA57FFF61C31F1B0006F72BD /* ViewController.swift */,
-				EA57FFF81C31F1B0006F72BD /* Main.storyboard */,
-				EA57FFFB1C31F1B0006F72BD /* Assets.xcassets */,
 				EA57FFFD1C31F1B0006F72BD /* LaunchScreen.storyboard */,
+				EA57FFF81C31F1B0006F72BD /* Main.storyboard */,
 				EA5700001C31F1B0006F72BD /* Info.plist */,
+				EA57FFFB1C31F1B0006F72BD /* Assets.xcassets */,
+				EA57FFF41C31F1B0006F72BD /* AppDelegate.swift */,
+				EA57FFF61C31F1B0006F72BD /* HaikuBoxViewController.swift */,
+				EA5700061C31F222006F72BD /* Haiku.swift */,
 			);
 			path = HaikuBox;
 			sourceTree = "<group>";
@@ -134,7 +137,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA57FFF71C31F1B0006F72BD /* ViewController.swift in Sources */,
+				EA57FFF71C31F1B0006F72BD /* HaikuBoxViewController.swift in Sources */,
+				EA5700071C31F222006F72BD /* Haiku.swift in Sources */,
 				EA57FFF51C31F1B0006F72BD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,10 +252,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HaikuBox/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.HaikuBox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -259,10 +266,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HaikuBox/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.HaikuBox;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -276,6 +286,7 @@
 				EA5700051C31F1B0006F72BD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EA57FFEC1C31F1B0006F72BD /* Build configuration list for PBXProject "HaikuBox" */ = {
 			isa = XCConfigurationList;
