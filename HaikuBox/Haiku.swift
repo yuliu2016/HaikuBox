@@ -4,23 +4,27 @@
 //
 //  Created by Yu Liu on 2015-12-28.
 //
-
 import Foundation
 
 // MARK: Type And Marker
 
-let haiku_replace_marker = ("-n", "-v", "-adj", "-adv")
+let haiku_replace_marker = ["-n", "-v", "-adj", "-adv"]
+let haiku_newline_marker = ","
 
-typealias haiku_word_set = ([String], [String], [String], [String])
+typealias haiku_word_set = [[String]]
 typealias haiku_list_item = (String, haiku_word_set)
-enum haiku_word_types {
-    case noun, verb, adjective, adverb
+
+enum haiku_word_types: Int{
+    case noun = 0
+    case verb = 1
+    case adjective = 2
+    case adverb = 3
 }
 
 // MARK: Sample
 
 let sample_haikus: [haiku_list_item] = [
-    ("An -adj -adj -n, A -n -vs into the -n, The sound of -n", (["pond", "frog", "pond", "water"], ["jump"], ["old", "silent"], []))
+    ("An -adj -adj -n, A -n -vs into the -n, The sound of -n", [["pond", "frog", "pond", "water"], ["jump"], ["old", "silent"], []])
 ]
 
 // MARK: Classes
@@ -28,38 +32,25 @@ let sample_haikus: [haiku_list_item] = [
 class Haiku {
     
     // MARK: Properties
-    
     let template: String
+    let original: haiku_word_set
     
-    let nouns: [String]
-    let verbs: [String]
-    let adjectives: [String]
-    let adverbs: [String]
+    // MARK: Methods
     
-    
-    // MARK: Initializer
-    
-    
-    /*
-    Initializes the haiku with the template and the original word set
-    */
-    
-    init(template: String, original: haiku_word_set) {
+    init(_ template: String, withSet original: haiku_word_set) {
         self.template = template
-        (nouns, verbs, adjectives, adverbs) = original
+        self.original = original
     }
     
-    
-    // MARK: Other Methods
-    
+    convenience init(_ data: haiku_list_item) {
+        self.init(data.0, withSet: data.1)
+    }
     
     /*
-    Returns a list of three containing each line of the template
+    Returns an array of three containing each line of the template
     */
-    
-    func template_lines() -> [String]? {
-        let splited = template.componentsSeparatedByString(",")
-        
+    func split_lines() -> [String]? {
+        let splited = template.componentsSeparatedByString(haiku_newline_marker)
         if splited.count == 3 {
             return splited
         } else {
@@ -68,81 +59,36 @@ class Haiku {
     }
     
     /*
-    Returns a tuple containing the original word set
-    */
-    
-    func original_set() -> haiku_word_set {
-        return (nouns, verbs, adjectives, adverbs)
-    }
-    
-    /*
     Retrieves the original Haiku
-    Calles original_set and replace_set together
     */
-    
     func toString() -> String {
-        return replace_set(original_set())
+        return replace_set(original)
     }
     
     /*
     Replaces the the marks in the template with new set
     Returns a String of the replaced set
     */
-    
     func replace_set(newset: haiku_word_set) -> String {
         
-        let (new_nouns, new_verbs, new_adjectives, new_adverbs) = newset
         var split_template = template.componentsSeparatedByString(" ")
-        var wordset_count = (0,0,0,0)
+        var wordset_count: [Int] = [0,0,0,0]
         var temp = "" //contains sufix of each word
         var marker_length = 0
         
+        //iterates through the array
         for (count, word) in split_template.enumerate(){
-            if new_nouns.count < wordset_count.0 || new_verbs.count < wordset_count.1 || new_adjectives.count < wordset_count.2 || new_adverbs.count < wordset_count.3 {
-                break
-            }
-            
-            if word.hasPrefix(haiku_replace_marker.0) {
-                
-                temp = word
-                marker_length = haiku_replace_marker.0.characters.count
-                
-                temp.removeRange(temp.startIndex...temp.startIndex.advancedBy(marker_length-1))
-                
-                split_template[count] = new_nouns[wordset_count.0]
-                split_template[count] += temp
-                wordset_count.0 += 1
-                
-            } else if word.hasPrefix(haiku_replace_marker.1) {
-                temp = word
-                marker_length = haiku_replace_marker.1.characters.count
-                
-                temp.removeRange(temp.startIndex...temp.startIndex.advancedBy(marker_length-1))
-                
-                split_template[count] = new_verbs[wordset_count.1]
-                split_template[count] += temp
-                wordset_count.1 += 1
-                
-            } else if word.hasPrefix(haiku_replace_marker.2) {
-                temp = word
-                marker_length = haiku_replace_marker.2.characters.count
-                
-                temp.removeRange(temp.startIndex...temp.startIndex.advancedBy(marker_length-1))
-                
-                split_template[count] = new_adjectives[wordset_count.2]
-                split_template[count] += temp
-                wordset_count.2 += 1
-                
-            } else if word.hasPrefix(haiku_replace_marker.3) {
-                temp = word
-                marker_length = haiku_replace_marker.3.characters.count
-                
-                temp.removeRange(temp.startIndex...temp.startIndex.advancedBy(marker_length-1))
-                
-                split_template[count] = new_adverbs[wordset_count.3]
-                split_template[count] += temp
-                wordset_count.3 += 1
-                
+            for i in [0,1,2,3] {
+                if word.hasPrefix(haiku_replace_marker[i]){
+                    marker_length = haiku_replace_marker[i].characters.count
+                    temp = word
+                    temp.removeRange(temp.startIndex..<temp.startIndex.advancedBy(marker_length))
+                    
+                    split_template[count] = newset[i][wordset_count[i]]
+                    split_template[count] += temp
+                    wordset_count[i] += 1
+                    break
+                }
             }
         }
         
@@ -159,41 +105,69 @@ class Haiku {
     Also replaces the other marks -n -v -adj and -adv with the original word set
     Returns a string of the result replacement
     */
-    
-    func replace_one(new_word: String, type: haiku_word_types, index: Int) -> String? {
+    func replace_a_word(new_word: String, ofType type: haiku_word_types, atIndex index: Int) -> String? {
         
-        var new_set = original_set()
-        if index < 0 {
+        var new_set = original
+        if index < 0 || new_set.count < type.rawValue || new_set[type.rawValue].count <= index{
             return nil
         }
-        
-        switch type{
-            
-        case .noun:
-            guard new_set.0.count > index else {
-                return nil
-            }
-            new_set.0[index] = new_word
-            
-        case .verb:
-            guard new_set.1.count > index else {
-                return nil
-            }
-            new_set.1[index] = new_word
-            
-        case .adjective:
-            guard new_set.2.count > index else {
-                return nil
-            }
-            new_set.2[index] = new_word
-        
-        case .adverb:
-            guard new_set.3.count > index else {
-                return nil
-            }
-            new_set.3[index] = new_word
-        }
-        
+        new_set[type.rawValue][index] = new_word
+        print(new_set)
         return replace_set(new_set)
+    }
+}
+
+class HaikuManager {
+    
+    var managedHaikus: [Haiku]
+    
+    /*
+    subscript(index: Int) -> haiku_list_item {
+    ...
+    }
+    */
+    
+    init() {
+        managedHaikus = []
+    }
+    
+    static func randLessThan(max: Int) -> Int {
+        return random() % max
+    }
+    
+    func addHaiku(new_haiku: haiku_list_item) -> Bool {
+        return true
+    }
+    
+    func addHaikus(new_haikus: [haiku_list_item]) -> Bool {
+        return true
+    }
+    
+    func randomHaikuId() -> Int {
+        return 0
+    }
+    
+    func getHaikuById() -> Haiku? {
+        return nil
+    }
+    
+    func oneWord(word: String) -> Haiku? { // remove ?
+        return nil
+    }
+    
+    func randomLine(id: Int?) -> String? {
+        return nil
+    }
+    
+    func shake1(current_haiku: Haiku) -> Haiku? {
+        return nil
+    }
+    
+    func shake2(current_haiku: Haiku) -> Haiku? {
+        return nil
+    }
+    
+    func shake3(current_haiku: Haiku) -> Haiku? {
+        return nil
     }
 }
