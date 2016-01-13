@@ -6,7 +6,7 @@
 //
 import Foundation
 
-// MARK: Type And Marker
+// MARK: Type, Marker, and Functions
 
 let haiku_replace_marker = ["-n", "-v", "-adj", "-adv"]
 let haiku_newline_marker = ","
@@ -24,7 +24,25 @@ enum haiku_word_types: Int{
 // MARK: Sample
 
 let sample_haikus: [haiku_list_item] = [
-    ("An -adj -adj -n, A -n -vs into the -n, The sound of -n", [["pond", "frog", "pond", "water"], ["jump"], ["old", "silent"], []])
+    ("An -adj -adj -n, A -n -vs into the -n, The sound of -n", [["pond", "frog", "pond", "water"], ["jump"], ["old", "silent"], []]),
+    
+    ("lightning -n, what I thought were -n, are plumes of -n grass", [["flash", "faces", "pampas"], [], [], []]),
+    
+    ("A summer -n being -ved, how -adj, with -n in my -n!", [["river", "sandals", "hands"], ["cross"], ["pleasing"], []]),
+    
+    ("-n of the -n, moves west- -n's shadows, -v -adv", [["light", "moon", "flowers"], ["move"], [], ["eastward"]]),
+    
+    ("In the -n, The -n of the -n, -vs far away", [["moonlight", "color and scent", "wisteria"], ["seem"], [], []]),
+    
+    ("O -n, Climb -n, But -adv", [["snail", "Mount Fuji",], ["seem"], [], ["slowly"]]),
+    
+    ("Trusting the -n- good and bad, I bid farewell, To the departing -n", [["Buddha", "year"], [], [], []]),
+    
+    ("Everything I -v, with -n- alas, -vs like a -n", [["tenderness", "bramble",], ["touch", "prick"], [], []]),
+    
+    ("Over the wintry, forest, -ns howl in rage, -with no -ns to -v", [["wind", "leave",], ["blow"], [], []]),
+    
+    ("The -n has flown away, -ving in the evening -n, a -adj -n", [["crow", "sun", "tree"], ["sway"], ["leafless"], []]),
 ]
 
 // MARK: Classes
@@ -79,7 +97,7 @@ class Haiku {
         //iterates through the array
         for (count, word) in split_template.enumerate(){
             for i in [0,1,2,3] {
-                if word.hasPrefix(haiku_replace_marker[i]){
+                if word.hasPrefix(haiku_replace_marker[i]) {
                     marker_length = haiku_replace_marker[i].characters.count
                     temp = word
                     temp.removeRange(temp.startIndex..<temp.startIndex.advancedBy(marker_length))
@@ -111,63 +129,92 @@ class Haiku {
         if index < 0 || new_set.count < type.rawValue || new_set[type.rawValue].count <= index{
             return nil
         }
+        
         new_set[type.rawValue][index] = new_word
-        print(new_set)
         return replace_set(new_set)
+        
+    }
+    
+    func randIndex(type: haiku_word_types) -> Int? {
+        let count = original[type.rawValue].count
+        
+        if count == 0 {
+            return nil
+        }
+        return random() % original[type.rawValue].count
     }
 }
 
 class HaikuManager {
     
-    var managedHaikus: [Haiku]
+    // MARK: Properties
     
-    /*
-    subscript(index: Int) -> haiku_list_item {
-    ...
-    }
-    */
+    var managedHaikus: [Haiku]
+    var currentHaiku: Haiku!
+    var type: haiku_word_types = .noun
+    
+    // MARK: Main Methods
     
     init() {
         managedHaikus = []
     }
     
-    static func randLessThan(max: Int) -> Int {
-        return random() % max
+    func loadSamples() {
+        addHaikus(sample_haikus)
     }
     
-    func addHaiku(new_haiku: haiku_list_item) -> Bool {
-        return true
+    func changeType(type: haiku_word_types) {
+        self.type = type
     }
     
-    func addHaikus(new_haikus: [haiku_list_item]) -> Bool {
-        return true
+    func oneWord(word: String) -> String? {
+        let randHaiku = randomHaiku()
+        if randHaiku.randIndex(type) == nil {
+            return nil
+        }
+        return randHaiku.replace_a_word(word, ofType: type, atIndex: randHaiku.randIndex(type)!)
+    }
+    
+    func scramble1() -> Haiku? {
+        return nil
+    }
+    
+    func scramble2() -> Haiku? {
+        return nil
+    }
+    
+    func scramble3(current_haiku: Haiku) -> Haiku? {
+        return nil
+    }
+    
+    // MARK: Helper methods
+    
+    func addHaikus(new_haikus: [haiku_list_item]) {
+        for new_haiku in new_haikus {
+            managedHaikus.append(Haiku(new_haiku))
+        }
     }
     
     func randomHaikuId() -> Int {
-        return 0
+        return random() % managedHaikus.count
     }
     
-    func getHaikuById() -> Haiku? {
-        return nil
+    func getHaikuById(id: Int) -> Haiku {
+        return managedHaikus[id]
     }
     
-    func oneWord(word: String) -> Haiku? { // remove ?
-        return nil
+    func randomHaiku() -> Haiku {
+        return getHaikuById(randomHaikuId())
     }
     
     func randomLine(id: Int?) -> String? {
-        return nil
+        let lines = randomHaiku().split_lines()
+        if lines == nil {
+            return nil
+        } else {
+            return lines![random() % 3]
+        }
     }
     
-    func shake1(current_haiku: Haiku) -> Haiku? {
-        return nil
-    }
     
-    func shake2(current_haiku: Haiku) -> Haiku? {
-        return nil
-    }
-    
-    func shake3(current_haiku: Haiku) -> Haiku? {
-        return nil
-    }
 }
