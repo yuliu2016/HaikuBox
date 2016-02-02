@@ -4,138 +4,189 @@
 //
 //  Created by Yu Liu on 2015-12-28.
 //
+
 import Foundation
 
-// MARK: Type, Marker, and Functions
+/*
+Markers that indicates the formatting of the haikus
+*/
 
-let haiku_replace_marker = ["-n", "-v", "-adj", "-adv"]
-let haiku_newline_marker = ","
+let haikuReplaceMarker = ["-n", "-v", "-adj", "-adv"]
+let haikuNewlineMarker = ","
 
-typealias haiku_word_set = [[String]]
-typealias haiku_list_item = (String, haiku_word_set)
+/*
+Type assignments
+*/
 
-enum haiku_word_types: Int{
+typealias haikuWordSet = [[String]]
+typealias haikuListItem = (String, haikuWordSet)
+
+enum haikuWordTypes: Int {
     case noun = 0
     case verb = 1
     case adjective = 2
     case adverb = 3
 }
 
-// MARK: Sample
+// MARK: Functions
 
-let sample_haikus: [haiku_list_item] = [
-    ("An -adj -adj -n, A -n -vs into the -n, The sound of -n", [["pond", "frog", "pond", "water"], ["jump"], ["old", "silent"], []]),
+/*
+Joins a list of strings into one
+*/
+func join(split: [String]) -> String {
+    var joinedString = ""
+    for word in split {
+        joinedString.appendContentsOf(word)
+        joinedString += " "
+    }
+    return joinedString
+}
+
+/*
+Returns a ascending or flat counter based on the length of word types
+*/
+func counter(countUp: Bool = false) -> [Int] {
+    var array: [Int] = []
     
-    ("lightning -n, what I thought were -n, are plumes of -n grass", [["flash", "faces", "pampas"], [], [], []]),
+    for count in 0..<haikuReplaceMarker.count {
+        if countUp == true {
+            array.append(count)
+        } else {
+            array.append(0)
+        }
+    }
     
-    ("A summer -n being -ved, how -adj, with -n in my -n!", [["river", "sandals", "hands"], ["cross"], ["pleasing"], []]),
-    
-    ("-n of the -n, moves west- -n's shadows, -v -adv", [["light", "moon", "flowers"], ["move"], [], ["eastward"]]),
-    
-    ("In the -n, The -n of the -n, -vs far away", [["moonlight", "color and scent", "wisteria"], ["seem"], [], []]),
-    
-    ("O -n, Climb -n, But -adv", [["snail", "Mount Fuji",], ["seem"], [], ["slowly"]]),
-    
-    ("Trusting the -n- good and bad, I bid farewell, To the departing -n", [["Buddha", "year"], [], [], []]),
-    
-    ("Everything I -v, with -n- alas, -vs like a -n", [["tenderness", "bramble",], ["touch", "prick"], [], []]),
-    
-    ("Over the wintry, forest, -ns howl in rage, -with no -ns to -v", [["wind", "leave",], ["blow"], [], []]),
-    
-    ("The -n has flown away, -ving in the evening -n, a -adj -n", [["crow", "sun", "tree"], ["sway"], ["leafless"], []]),
-]
+    return array
+}
 
 // MARK: Classes
 
 class Haiku {
     
     // MARK: Properties
+    
     let template: String
-    let original: haiku_word_set
+    let original: haikuWordSet
     
     // MARK: Methods
     
-    init(_ template: String, withSet original: haiku_word_set) {
+    init(withTemplate template: String, andWordSet original: haikuWordSet) {
         self.template = template
         self.original = original
     }
     
-    convenience init(_ data: haiku_list_item) {
-        self.init(data.0, withSet: data.1)
+    /*
+    Use a tuple as argument that contains the template and original
+    */
+    convenience init(withCombinedData data: haikuListItem) {
+        self.init(withTemplate: data.0, andWordSet: data.1)
     }
     
     /*
-    Returns an array of three containing each line of the template
+    Combines several haiku tuples into one
     */
-    func split_lines() -> [String]? {
-        let splited = template.componentsSeparatedByString(haiku_newline_marker)
-        if splited.count == 3 {
-            return splited
-        } else {
-            return nil
+    convenience init(withSeparateLineItems items: [haikuListItem]){
+        var template: String = ""
+        var wordset: haikuWordSet = []
+        
+        for _ in 0..<haikuReplaceMarker.count {
+            wordset.append([])
         }
-    }
-    
-    /*
-    Retrieves the original Haiku
-    */
-    func toString() -> String {
-        return replace_set(original)
+        
+        for item in items {
+            template += item.0
+            template += haikuNewlineMarker
+            template += " "
+            for x in counter(true) {
+                if item.1[x].count == 0 {
+                    continue
+                }
+                wordset[x].appendContentsOf(item.1[x])
+            }
+        }
+        
+        self.init(withTemplate: template, andWordSet: wordset)
     }
     
     /*
     Replaces the the marks in the template with new set
-    Returns a String of the replaced set
     */
-    func replace_set(newset: haiku_word_set) -> String {
+    func replace(withWordSet newset: haikuWordSet) -> String {
         
-        var split_template = template.componentsSeparatedByString(" ")
-        var wordset_count: [Int] = [0,0,0,0]
-        var temp = "" //contains sufix of each word
-        var marker_length = 0
+        var splitTemplate = template.componentsSeparatedByString(" ")
+        var wscount = counter()
+        var temp = ""
+        var markerLength = 0
         
-        //iterates through the array
-        for (count, word) in split_template.enumerate(){
-            for i in [0,1,2,3] {
-                if word.hasPrefix(haiku_replace_marker[i]) {
-                    marker_length = haiku_replace_marker[i].characters.count
+        for (count, word) in splitTemplate.enumerate() {
+            for i in counter(true) {
+                if word.hasPrefix(haikuReplaceMarker[i]) {
+                    markerLength = haikuReplaceMarker[i].characters.count
                     temp = word
-                    temp.removeRange(temp.startIndex..<temp.startIndex.advancedBy(marker_length))
+                    temp.removeRange(temp.startIndex..<temp.startIndex.advancedBy(markerLength))
                     
-                    split_template[count] = newset[i][wordset_count[i]]
-                    split_template[count] += temp
-                    wordset_count[i] += 1
+                    splitTemplate[count] = newset[i][wscount[i]]
+                    splitTemplate[count] += temp
+                    wscount[i] += 1
                     break
                 }
             }
         }
         
-        var returned_string = ""
-        for word in split_template {
-            returned_string = returned_string + word
-            returned_string = returned_string + " "
-        }
-        return returned_string
+        return join(splitTemplate)
     }
     
     /*
-    Replaces one specific word in the haiku template
-    Also replaces the other marks -n -v -adj and -adv with the original word set
-    Returns a string of the result replacement
+    Replaces one specific word in the haiku template, but keep the other words
     */
-    func replace_a_word(new_word: String, ofType type: haiku_word_types, atIndex index: Int) -> String? {
+    func replace(withOneWord newWord: String, ofType type: haikuWordTypes, atIndex index: Int) -> String {
         
-        var new_set = original
-        if index < 0 || new_set.count < type.rawValue || new_set[type.rawValue].count <= index{
-            return nil
+        var newWordSet = original
+        if index < 0 || newWordSet.count < type.rawValue || newWordSet[type.rawValue].count <= index {
+            return "An error has occured"
         }
         
-        new_set[type.rawValue][index] = new_word
-        return replace_set(new_set)
-        
+        newWordSet[type.rawValue][index] = newWord
+        return replace(withWordSet: newWordSet)
     }
     
-    func randIndex(type: haiku_word_types) -> Int? {
+    /*
+    Returns the template and wordset of one item
+    */
+    func lineItem(lineNo: Int) -> haikuListItem {
+        if lineNo >= 3 || lineNo <= -1 {
+            return ("error",[])
+        }
+        
+        let splitTemplate = template.componentsSeparatedByString(" ")
+        var newWordSet: haikuWordSet = [[],[],[],[]]
+        var wscount = counter(false)
+        var currentLine = 0
+        
+        for word in splitTemplate {
+            for i in counter(true) {
+                if word.hasPrefix(haikuReplaceMarker[i]){
+                    if currentLine == lineNo {
+                        newWordSet[i].append(original[i][wscount[i]])
+                    }
+                    wscount[i] += 1
+                }
+            }
+            if word.hasSuffix(",") {
+                currentLine += 1
+            }
+            if currentLine > lineNo {
+                break
+            }
+        }
+        
+        return (template.componentsSeparatedByString(haikuNewlineMarker)[lineNo], newWordSet)
+    }
+    
+    /*
+    Returns a random number within the range of the Array for the specified list
+    */
+    func randIndex(type: haikuWordTypes) -> Int? {
         let count = original[type.rawValue].count
         
         if count == 0 {
@@ -150,8 +201,9 @@ class HaikuManager {
     // MARK: Properties
     
     var managedHaikus: [Haiku]
-    var currentHaiku: Haiku!
-    var type: haiku_word_types = .noun
+    var currentWord: String?
+    var type: haikuWordTypes = .noun
+    var lastRandom = -1
     
     // MARK: Main Methods
     
@@ -159,62 +211,83 @@ class HaikuManager {
         managedHaikus = []
     }
     
-    func loadSamples() {
-        addHaikus(sample_haikus)
+    /*
+    Loads the haikus into memory
+    */
+    func loadAll() {
+        addHaikus(getHaikuList())
     }
     
-    func changeType(type: haiku_word_types) {
+    /*
+    A separated method for setting the type of word used to generate haikus
+    */
+    func setType(type: haikuWordTypes) {
         self.type = type
     }
     
-    func oneWord(word: String) -> String? {
-        let randHaiku = randomHaiku()
-        if randHaiku.randIndex(type) == nil {
-            return nil
+    /*
+    Returns a haiku string, with a random word replaced by the argument word
+    */
+    func oneWord(word: String) -> String {
+        
+        var items: [haikuListItem] = []
+        
+        for i in 0...2 {
+            items.append(randomHaiku().lineItem(i))
         }
-        return randHaiku.replace_a_word(word, ofType: type, atIndex: randHaiku.randIndex(type)!)
+        
+        let newHaiku = Haiku(withSeparateLineItems: items)
+        return newHaiku.replace(withOneWord: word, ofType: type, atIndex: newHaiku.randIndex(type)!)
     }
     
-    func scramble1() -> Haiku? {
-        return nil
+    /*
+    Same as oneWord but formatted to fit on a screen
+    */
+    func oneWordFormatted(word: String) -> String {
+        let replacer = oneWord(word)
+        let splitLines = replacer.componentsSeparatedByString(haikuNewlineMarker)
+        var result = ""
+        for i in splitLines {
+            result += (i + "\n")
+        }
+        print(word, " - ", replacer)
+        return result
     }
     
-    func scramble2() -> Haiku? {
-        return nil
-    }
+    // MARK: Helper method
     
-    func scramble3(current_haiku: Haiku) -> Haiku? {
-        return nil
-    }
-    
-    // MARK: Helper methods
-    
-    func addHaikus(new_haikus: [haiku_list_item]) {
-        for new_haiku in new_haikus {
-            managedHaikus.append(Haiku(new_haiku))
+    /*
+    Adds a list of haiku to the existing list
+    */
+    func addHaikus(newHaikus: [haikuListItem]) {
+        for newHaiku in newHaikus {
+            managedHaikus.append(Haiku(withCombinedData: newHaiku))
         }
     }
     
+    /*
+    Select a random haiku from the managedHaikus list
+    */
     func randomHaikuId() -> Int {
-        return random() % managedHaikus.count
+        let randId = random() % managedHaikus.count
+        if randId == lastRandom {
+            return randomHaikuId()
+        }
+        lastRandom = randId
+        return randId
     }
     
+    /*
+    Select a haiku from the list with the id
+    */
     func getHaikuById(id: Int) -> Haiku {
         return managedHaikus[id]
     }
     
+    /*
+    Combination of randomHaikuId and getHaikuByid
+    */
     func randomHaiku() -> Haiku {
         return getHaikuById(randomHaikuId())
     }
-    
-    func randomLine(id: Int?) -> String? {
-        let lines = randomHaiku().split_lines()
-        if lines == nil {
-            return nil
-        } else {
-            return lines![random() % 3]
-        }
-    }
-    
-    
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA551F911C6014C100F99FD2 /* HaikuData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA551F901C6014C100F99FD2 /* HaikuData.swift */; };
 		EA5700071C31F222006F72BD /* Haiku.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA5700061C31F222006F72BD /* Haiku.swift */; };
 		EA57FFF51C31F1B0006F72BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57FFF41C31F1B0006F72BD /* AppDelegate.swift */; };
 		EA57FFF71C31F1B0006F72BD /* HaikuBoxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57FFF61C31F1B0006F72BD /* HaikuBoxViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA551F901C6014C100F99FD2 /* HaikuData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HaikuData.swift; sourceTree = "<group>"; };
 		EA5700001C31F1B0006F72BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA5700061C31F222006F72BD /* Haiku.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Haiku.swift; sourceTree = "<group>"; };
 		EA57FFF11C31F1B0006F72BD /* HaikuBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HaikuBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +65,7 @@
 				EA57FFF41C31F1B0006F72BD /* AppDelegate.swift */,
 				EA57FFF61C31F1B0006F72BD /* HaikuBoxViewController.swift */,
 				EA5700061C31F222006F72BD /* Haiku.swift */,
+				EA551F901C6014C100F99FD2 /* HaikuData.swift */,
 			);
 			path = HaikuBox;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			files = (
 				EA57FFF71C31F1B0006F72BD /* HaikuBoxViewController.swift in Sources */,
 				EA5700071C31F222006F72BD /* Haiku.swift in Sources */,
+				EA551F911C6014C100F99FD2 /* HaikuData.swift in Sources */,
 				EA57FFF51C31F1B0006F72BD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

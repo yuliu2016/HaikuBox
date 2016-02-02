@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -31,7 +31,7 @@
                                 </connections>
                             </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="url-No-YhJ">
-                                <rect key="frame" x="31" y="148" width="258" height="420"/>
+                                <rect key="frame" x="31" y="148" width="258" height="360"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">An old silent pond
 A frog jumps into the pond
@@ -44,15 +44,24 @@ The sound of water</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qm7-dj-7ni">
+                                <rect key="frame" x="67" y="523" width="186" height="30"/>
+                                <state key="normal" title="Repeat with the same word"/>
+                                <connections>
+                                    <action selector="RepeatClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="buX-GA-oPF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="irg-w6-zHP" firstAttribute="top" secondItem="CGQ-FN-cy8" secondAttribute="bottom" constant="15" id="0hQ-kb-Fib"/>
+                            <constraint firstItem="kVV-ty-fUt" firstAttribute="top" secondItem="Qm7-dj-7ni" secondAttribute="bottom" constant="15" id="0su-Cq-puc"/>
                             <constraint firstItem="url-No-YhJ" firstAttribute="top" secondItem="Y8A-Rb-YKZ" secondAttribute="bottom" constant="40" id="4WU-xu-KHG"/>
+                            <constraint firstItem="Qm7-dj-7ni" firstAttribute="centerX" secondItem="mt3-ku-sek" secondAttribute="centerX" id="6EQ-2E-Axn"/>
                             <constraint firstItem="irg-w6-zHP" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" constant="40" id="L8m-Ha-YVb"/>
+                            <constraint firstItem="url-No-YhJ" firstAttribute="bottom" secondItem="Qm7-dj-7ni" secondAttribute="top" constant="-15" id="YeX-Io-1Mu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Y8A-Rb-YKZ" secondAttribute="trailing" id="ZJQ-B6-wGd"/>
-                            <constraint firstItem="kVV-ty-fUt" firstAttribute="top" secondItem="url-No-YhJ" secondAttribute="bottom" id="aLX-uj-dr6"/>
                             <constraint firstItem="Y8A-Rb-YKZ" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" id="bHp-Ns-vx8"/>
                             <constraint firstItem="url-No-YhJ" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" constant="15" id="d3f-u5-WcK"/>
                             <constraint firstItem="Y8A-Rb-YKZ" firstAttribute="top" secondItem="irg-w6-zHP" secondAttribute="bottom" constant="15" id="r7D-x1-3Of"/>
