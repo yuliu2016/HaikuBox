@@ -4,7 +4,7 @@
 //
 //  Created by Yu Liu on 2015-12-28.
 //
-//Add action for clicking outside of the text field
+
 import UIKit
 
 class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
@@ -13,9 +13,10 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var wordTextField: UITextField!
     @IBOutlet weak var haikuDisplay: UITextView!
-
-    var manager = HaikuManager()
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var repeatButton: UIButton!
     
+    var manager = HaikuManager()
     
     // MARK: Methods
     override func viewDidLoad() {
@@ -35,13 +36,13 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     
     override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
         if motion == .MotionShake {
-            if wordTextField.isFirstResponder() {
+            if manager.currentWord == nil {
+                haikuDisplay.text = "You havn't entered a word yet"
                 return
             }
-            let av = UIAlertController(title: "Shake", message: "Shaking to be implemented", preferredStyle: .Alert)
-            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in return }
-            av.addAction(OKAction)
-            presentViewController(av, animated: true, completion: nil)
+            let formatted = manager.oneWord(manager.currentWord!)
+            haikuDisplay.text = formatted
+            self.resignFirstResponder()
         }
     }
     
@@ -55,10 +56,14 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     */
     func textFieldDidEndEditing(textField: UITextField) {
         
-        if textField.text != nil {
-            let formatted = manager.oneWordFormatted(textField.text!)
+        if var text = textField.text {
+            let formatted = manager.oneWord(text)
             haikuDisplay.text = formatted
-            manager.currentWord = textField.text
+            manager.currentWord = text
+            text.replaceRange(text.startIndex...text.startIndex, with: String(text[text.startIndex]).uppercaseString)
+            titleLabel.text = text
+            titleLabel.alpha = 1
+            repeatButton.alpha = 1
         }
     }
 
@@ -73,19 +78,26 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
             manager.setType(haikuWordTypes.noun)
             wordTextField.placeholder = "Enter a noun"
             wordTextField.text = ""
+            print("Changed To Noun")
         case 1:
             manager.setType(haikuWordTypes.verb)
             wordTextField.placeholder = "Enter a verb"
             wordTextField.text = ""
+            print("Changed To Verb")
         case 2:
             manager.setType(haikuWordTypes.adjective)
             wordTextField.placeholder = "Enter an adjective"
             wordTextField.text = ""
+            print("Changed To Adjective")
         default:
             manager.setType(haikuWordTypes.noun)
-            wordTextField.placeholder = "Enter an adjective"
+            wordTextField.placeholder = "Enter an noun"
             wordTextField.text = ""
+            print("Changed To Noun")
         }
+        manager.currentHaiku = nil
+        manager.currentWord = nil
+        repeatButton.alpha = 0
     }
     
     /*
@@ -93,9 +105,10 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     */
     @IBAction func RepeatClicked() {
         if manager.currentWord == nil {
+            haikuDisplay.text = "You havn't entered a word yet"
             return
         }
-        let formatted = manager.oneWordFormatted(manager.currentWord!)
+        let formatted = manager.oneWord(manager.currentWord!)
         haikuDisplay.text = formatted
     }
 }

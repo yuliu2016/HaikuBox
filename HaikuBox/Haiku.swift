@@ -124,7 +124,6 @@ class Haiku {
                     markerLength = haikuReplaceMarker[i].characters.count
                     temp = word
                     temp.removeRange(temp.startIndex..<temp.startIndex.advancedBy(markerLength))
-                    
                     splitTemplate[count] = newset[i][wscount[i]]
                     splitTemplate[count] += temp
                     wscount[i] += 1
@@ -154,33 +153,28 @@ class Haiku {
     Returns the template and wordset of one item
     */
     func lineItem(lineNo: Int) -> haikuListItem {
-        if lineNo >= 3 || lineNo <= -1 {
-            return ("error",[])
-        }
         
-        let splitTemplate = template.componentsSeparatedByString(" ")
         var newWordSet: haikuWordSet = [[],[],[],[]]
-        var wscount = counter(false)
-        var currentLine = 0
+        var wscount = counter()
+        let lines = template.componentsSeparatedByString(haikuNewlineMarker)
         
-        for word in splitTemplate {
-            for i in counter(true) {
-                if word.hasPrefix(haikuReplaceMarker[i]){
-                    if currentLine == lineNo {
-                        newWordSet[i].append(original[i][wscount[i]])
+        for (currentLine,line) in lines.enumerate() {
+            for word in line.componentsSeparatedByString(" ") {
+                for i in counter(true) {
+                    if word.hasPrefix(haikuReplaceMarker[i]) {
+                        if wscount[i] == original[i].count {
+                            print("Index Error",template, original)
+                        }
+                        if currentLine == lineNo {
+                            newWordSet[i].append(original[i][wscount[i]])
+                        }
+                        wscount[i] += 1
                     }
-                    wscount[i] += 1
                 }
             }
-            if word.hasSuffix(",") {
-                currentLine += 1
-            }
-            if currentLine > lineNo {
-                break
-            }
         }
         
-        return (template.componentsSeparatedByString(haikuNewlineMarker)[lineNo], newWordSet)
+        return (lines[lineNo], newWordSet)
     }
     
     /*
@@ -192,7 +186,16 @@ class Haiku {
         if count == 0 {
             return nil
         }
-        return random() % original[type.rawValue].count
+        let x = random() % original[type.rawValue].count
+        return x
+    }
+    
+    func atRandIndex(type: haikuWordTypes) -> String? {
+        let ri = randIndex(type)
+        if ri == nil {
+            return "===Error==="
+        }
+        return original[type.rawValue][ri!]
     }
 }
 
@@ -201,6 +204,7 @@ class HaikuManager {
     // MARK: Properties
     
     var managedHaikus: [Haiku]
+    var currentHaiku: Haiku?
     var currentWord: String?
     var type: haikuWordTypes = .noun
     var lastRandom = -1
@@ -208,6 +212,8 @@ class HaikuManager {
     // MARK: Main Methods
     
     init() {
+        let time = UInt32(NSDate().timeIntervalSinceReferenceDate)
+        srandom(time)
         managedHaikus = []
     }
     
@@ -223,6 +229,7 @@ class HaikuManager {
     */
     func setType(type: haikuWordTypes) {
         self.type = type
+        currentHaiku = nil
     }
     
     /*
@@ -231,26 +238,41 @@ class HaikuManager {
     func oneWord(word: String) -> String {
         
         var items: [haikuListItem] = []
-        
         for i in 0...2 {
-            items.append(randomHaiku().lineItem(i))
+            let h = randomHaiku()
+            items.append(h.lineItem(i))
         }
         
         let newHaiku = Haiku(withSeparateLineItems: items)
-        return newHaiku.replace(withOneWord: word, ofType: type, atIndex: newHaiku.randIndex(type)!)
+        if newHaiku.randIndex(type) == nil {
+            print("No word of type",type)
+            return oneWord(word)
+        }
+        
+        currentHaiku = newHaiku
+        let replaced: String
+        
+        if !word.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
+            replaced = newHaiku.replace(withOneWord: word, ofType: type, atIndex: newHaiku.randIndex(type)!)
+        } else {
+            replaced = newHaiku.replace(withWordSet: newHaiku.original)
+        }
+        print(word, " - ", replaced)
+        
+        return formatLines(replaced)
     }
     
-    /*
-    Same as oneWord but formatted to fit on a screen
-    */
-    func oneWordFormatted(word: String) -> String {
-        let replacer = oneWord(word)
-        let splitLines = replacer.componentsSeparatedByString(haikuNewlineMarker)
+    func formatLines(lines: String) -> String {
+        let splitLines = lines.componentsSeparatedByString(haikuNewlineMarker)
         var result = ""
         for i in splitLines {
-            result += (i + "\n")
+            var temp = i.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            if temp == "" {
+                break
+            }
+            temp.replaceRange(temp.startIndex...temp.startIndex, with: String(temp[temp.startIndex]).uppercaseString)
+            result += temp + "\n"
         }
-        print(word, " - ", replacer)
         return result
     }
     
