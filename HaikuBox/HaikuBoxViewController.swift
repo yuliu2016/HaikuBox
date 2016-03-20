@@ -64,6 +64,8 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
             titleLabel.text = text
             titleLabel.alpha = 1
             repeatButton.alpha = 1
+            
+            textField.text = ""
         }
     }
 
@@ -105,7 +107,15 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     */
     @IBAction func RepeatClicked() {
         if manager.currentWord == nil {
-            haikuDisplay.text = "You havn't entered a word yet"
+            haikuDisplay.text = "You havn't entered a word yet!"
+            return
+        }
+        let formatted = manager.oneWord(manager.currentWord!)
+        haikuDisplay.text = formatted
+    }
+    @IBAction func swipes() {
+        if manager.currentWord == nil {
+            haikuDisplay.text = "You can't swipe before you entered a word!"
             return
         }
         let formatted = manager.oneWord(manager.currentWord!)

@@ -18,8 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" alpha="0.14999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Box" translatesAutoresizingMaskIntoConstraints="NO" id="bgv-Qt-Cgv">
+                                <rect key="frame" x="85" y="210" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Vtf-WK-4qD"/>
+                                    <constraint firstAttribute="height" constant="150" id="fiv-uV-GJt"/>
+                                </constraints>
+                            </imageView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="irg-w6-zHP">
-                                <rect key="frame" x="56" y="35" width="208" height="29"/>
+                                <rect key="frame" x="26" y="40" width="268" height="29"/>
                                 <segments>
                                     <segment title="Noun"/>
                                     <segment title="Verb"/>
@@ -30,28 +37,29 @@
                                 </connections>
                             </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="url-No-YhJ">
-                                <rect key="frame" x="36" y="175" width="248" height="328"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">An old silent pond
+                                <rect key="frame" x="36" y="175" width="248" height="325"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <string key="text">An old mossy pond
 A frog jumps into the pond
 The sound of water</string>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a noun" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y8A-Rb-YKZ">
-                                <rect key="frame" x="16" y="78" width="288" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="26" y="88" width="268" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                             <button opaque="NO" alpha="0.0" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qm7-dj-7ni">
-                                <rect key="frame" x="67" y="518" width="186" height="30"/>
-                                <state key="normal" title="Repeat with the same word"/>
+                                <rect key="frame" x="90" y="515" width="141" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Get Another Haiku"/>
                                 <connections>
                                     <action selector="RepeatClicked" destination="BYZ-38-t0r" eventType="touchUpInside" id="buX-GA-oPF"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gT5-Ah-kxz">
-                                <rect key="frame" x="131" y="123" width="59" height="32"/>
+                                <rect key="frame" x="131" y="133" width="59" height="32"/>
                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="26"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -60,21 +68,26 @@ The sound of water</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="irg-w6-zHP" firstAttribute="top" secondItem="CGQ-FN-cy8" secondAttribute="bottom" constant="15" id="0hQ-kb-Fib"/>
+                            <constraint firstItem="irg-w6-zHP" firstAttribute="top" secondItem="CGQ-FN-cy8" secondAttribute="bottom" constant="20" id="0hQ-kb-Fib"/>
                             <constraint firstItem="kVV-ty-fUt" firstAttribute="top" secondItem="Qm7-dj-7ni" secondAttribute="bottom" constant="20" id="0su-Cq-puc"/>
+                            <constraint firstItem="bgv-Qt-Cgv" firstAttribute="centerX" secondItem="mt3-ku-sek" secondAttribute="centerX" id="13C-C1-vnQ"/>
                             <constraint firstItem="Qm7-dj-7ni" firstAttribute="centerX" secondItem="mt3-ku-sek" secondAttribute="centerX" id="6EQ-2E-Axn"/>
                             <constraint firstItem="gT5-Ah-kxz" firstAttribute="top" secondItem="Y8A-Rb-YKZ" secondAttribute="bottom" constant="15" id="Fa9-E6-CLv"/>
-                            <constraint firstItem="url-No-YhJ" firstAttribute="top" secondItem="gT5-Ah-kxz" secondAttribute="bottom" constant="20" id="JeK-TP-h7I"/>
-                            <constraint firstItem="irg-w6-zHP" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" constant="40" id="L8m-Ha-YVb"/>
+                            <constraint firstItem="url-No-YhJ" firstAttribute="top" secondItem="gT5-Ah-kxz" secondAttribute="bottom" constant="10" id="JeK-TP-h7I"/>
+                            <constraint firstItem="irg-w6-zHP" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" constant="10" id="L8m-Ha-YVb"/>
+                            <constraint firstItem="bgv-Qt-Cgv" firstAttribute="top" secondItem="url-No-YhJ" secondAttribute="top" constant="35" id="RMq-7P-UJW"/>
                             <constraint firstItem="url-No-YhJ" firstAttribute="bottom" secondItem="Qm7-dj-7ni" secondAttribute="top" constant="-15" id="YeX-Io-1Mu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Y8A-Rb-YKZ" secondAttribute="trailing" id="ZJQ-B6-wGd"/>
-                            <constraint firstItem="Y8A-Rb-YKZ" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" id="bHp-Ns-vx8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Y8A-Rb-YKZ" secondAttribute="trailing" constant="10" id="ZJQ-B6-wGd"/>
+                            <constraint firstItem="Y8A-Rb-YKZ" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" constant="10" id="bHp-Ns-vx8"/>
                             <constraint firstItem="url-No-YhJ" firstAttribute="leading" secondItem="mt3-ku-sek" secondAttribute="leadingMargin" constant="20" id="d3f-u5-WcK"/>
                             <constraint firstItem="gT5-Ah-kxz" firstAttribute="centerX" secondItem="mt3-ku-sek" secondAttribute="centerX" id="fQA-az-QMy"/>
-                            <constraint firstItem="Y8A-Rb-YKZ" firstAttribute="top" secondItem="irg-w6-zHP" secondAttribute="bottom" constant="15" id="r7D-x1-3Of"/>
+                            <constraint firstItem="Y8A-Rb-YKZ" firstAttribute="top" secondItem="irg-w6-zHP" secondAttribute="bottom" constant="20" id="r7D-x1-3Of"/>
                             <constraint firstAttribute="trailingMargin" secondItem="url-No-YhJ" secondAttribute="trailing" constant="20" id="tXo-Cq-fAJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="irg-w6-zHP" secondAttribute="trailing" constant="40" id="xEF-eb-A0p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="irg-w6-zHP" secondAttribute="trailing" constant="10" id="xEF-eb-A0p"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="bc2-9a-GG5" appends="YES" id="bYQ-MR-m1f"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="haikuDisplay" destination="url-No-YhJ" id="SBN-ql-RFd"/>
@@ -84,8 +97,16 @@ The sound of water</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="bc2-9a-GG5">
+                    <connections>
+                        <action selector="swipes" destination="BYZ-38-t0r" id="yLd-DN-KBI"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="295" y="536"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Box" width="60" height="60"/>
+    </resources>
 </document>

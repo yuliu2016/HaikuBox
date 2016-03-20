@@ -18,7 +18,7 @@ func getHaikuList() -> [haikuListItem]{
         
         ("Lightning -n, Amid the -n grass, My old -n", [["flash", "silver", "face"], [], [], []]),
         
-        ("A summer -n being -ved, How -adj, with -n in my -n!", [["river", "sandals", "hands"], ["cross"], ["pleasing"], []]),
+        ("A summer -n being -ved, How -adj, with -n in the -n!", [["river", "sandals", "hands"], ["cross"], ["pleasing"], []]),
         
         ("-n of the -n moves west, -n's shadows, -v -adv", [["light", "moon", "flowers"], ["move"], [], ["eastward"]]),
         
@@ -30,7 +30,7 @@ func getHaikuList() -> [haikuListItem]{
         
         ("Everything I -v, with -n, It -vs like a -n", [["tenderness", "bramble",], ["touch", "prick"], [], []]),
         
-        ("Over the -adj forest, -ns are -ving, With no -n to -v", [["wind", "leaves",], ["blow", "shake"], ["wintry"], []]),
+        ("Over the -adj forest, -ns are -ving, With no -n to -v", [["wind", "leaves",], ["blow", "shed"], ["wintry"], []]),
         
         ("The -n has flown away, -ving in the -adj -n, A -adj -n", [["crow", "sun", "tree"], ["sway"], ["evening", "leafless"], []]),
         
@@ -42,7 +42,7 @@ func getHaikuList() -> [haikuListItem]{
         
         ("-n, Out of the -n, Out of -n", [["Lily", "water", "itself"], [], [], []]),
         
-        ("Ground -n, Balancing its -n, On the -n -n", [["squirrel", "tomato", "garden", "fence"], [], [], []]),
+        ("-n on the ground, Balancing its -n, On the -n -n", [["squirrel", "tomato", "garden", "fence"], [], [], []]),
         
         ("As the -n does -v, Across the -ns, I see the -ns -ving in May", [["wind", "tree", "bud"], ["blow", "bloom"], [], []]),
         
@@ -110,7 +110,7 @@ func getHaikuList() -> [haikuListItem]{
         // 40 ~ 49 X
         
         
-        ("From time to time, The -ns give rest, To the -n-beholders", [["cloud", "moon"], [], [], []]),
+        ("From time to time, The -ns give rest, To the -n-lovers", [["cloud", "moon"], [], [], []]),
         
         ("Consider -n, As one who loved, -n and -n", [["me", "poetry", "persimmons"], [], [], []]),
         
@@ -136,13 +136,13 @@ func getHaikuList() -> [haikuListItem]{
         
         ("How -adj!, To see -n and not think, Life is -adj", [["lightning"], [], ["admirable", "fleeting"], []]),
         
-        ("I like to -v, The -n of this world, In the droplets of -n", [["dust", "dew"], ["wash"], [], []]),
+        ("I like to -v, The -n of this world, In the droplets of -n", [["dust", "dew"], ["watch"], [], []]),
         
         ("I'm a -n, Let that be my -n, The first -adj rain", [["wanderer", "name"], [], ["winter"], []]),
         
         ("The -adj gold, And the -adj greenery, -v back -n of bygone days", [["memories"], ["bring"], ["tarnished", "fresh"], []]),
         
-        ("As I -v -n, My -n and -n , Are -ved by the floral -n", [["chrysanthemums", "soul", "heart", "spirit"], ["view", "sway"], [], []]),
+        ("As I -v -n, My -n and -n , Are -ved by the -adj -n", [["chrysanthemums", "soul", "heart", "spirit"], ["view", "sway"], ["floral"], []]),
         
         ("I love the -n of my -n, Though it is -adj, Like a -adj blue -n", [["rest", "life", "morning glory"], [], ["transitory", "light"], []]),
         
@@ -194,7 +194,7 @@ func getHaikuList() -> [haikuListItem]{
         
         ("On the -n’s -n, The -n -vs her -n, A -adj plum-blossom -n", [["hoe", "handle", "oriole", "song", "village"], ["sing"], ["small"], []]),
         
-        ("A -adj spring -n!, It -vs through the -adj barley plants, The sound of -n", [["breeze", "water" ], ["rush"], ["gentle", "green"], []]),
+        ("A -adj spring -n!, It -vs through the -adj barley plants, The sound of -n", [["breeze", "water" ], ["rushe"], ["gentle", "green"], []]),
         
         ("A -adj -n, Is coming back to the -n, A -n! ", [["petal", "branch", "butterfly" ], [], ["fallen"], []]),
         
@@ -244,7 +244,7 @@ func getHaikuList() -> [haikuListItem]{
         
         ("In the -adj -n, The -adj -n, Makes its own -n", [["dusk", "hibiscus", "sunset"], [], ["rainy", "flamboyant"], []]),
         
-        ("Echoes of the -n, -ving the -adj paths, Autumn -ving", [["bell"], ["follow", "dawn"], [], []]),
+        ("Echoes of the -n, -ving the -adj paths, Autumn -ving", [["bell"], ["follow", "dawn"], ["misty"], []]),
         
         ("One -n, Unknown to -n and -n, -vs in the -adj -n", [["flower", "bird", "butterfly", "sky"], ["bloom"], ["autumn"], []]),
         
