@@ -17,6 +17,7 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var repeatButton: UIButton!
     
     var manager = HaikuManager()
+    var fromType = false
     
     // MARK: Methods
     override func viewDidLoad() {
@@ -57,20 +58,23 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     func textFieldDidEndEditing(textField: UITextField) {
         
         if var text = textField.text {
-            let formatted = manager.oneWord(text)
-            haikuDisplay.text = formatted
-            manager.currentWord = text
-            text.replaceRange(text.startIndex...text.startIndex, with: String(text[text.startIndex]).uppercaseString)
-            titleLabel.text = text
-            titleLabel.alpha = 1
-            repeatButton.alpha = 1
-            
-            textField.text = ""
+            if !self.fromType && !textField.text!.isEmpty{
+                
+                let formatted = manager.oneWord(text)
+                haikuDisplay.text = formatted
+                manager.currentWord = text
+                text.replaceRange(text.startIndex...text.startIndex, with: String(text[text.startIndex]).uppercaseString)
+                titleLabel.text = text
+                titleLabel.alpha = 1
+                repeatButton.alpha = 1
+                
+                textField.text = ""
+            }
         }
     }
 
     // MARK: Actions
-    
+    /*
     /*
     changes the type in the manager between Noun, Verb, and Adjective
     */
@@ -100,7 +104,7 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
         manager.currentHaiku = nil
         manager.currentWord = nil
         repeatButton.alpha = 0
-    }
+    }*/
     
     /*
     Repeat the actions with the same word
@@ -113,13 +117,69 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
         let formatted = manager.oneWord(manager.currentWord!)
         haikuDisplay.text = formatted
     }
+    
     @IBAction func swipes() {
         if manager.currentWord == nil {
-            haikuDisplay.text = "You can't swipe before you entered a word!"
+            haikuDisplay.text = "Please enter a word first!"
             return
         }
         let formatted = manager.oneWord(manager.currentWord!)
         haikuDisplay.text = formatted
     }
+    
+    @IBAction func typeChanger(sender:AnyObject){
+        self.fromType=true;
+        let changerAlert = UIAlertController(title: "Choose the Part of Speech", message: nil, preferredStyle: .Alert)
+        
+        changerAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel){action -> Void in
+            
+            changerAlert.dismissViewControllerAnimated(true, completion: nil)
+            self.fromType=false})
+        
+        changerAlert.addAction(UIAlertAction(title: "Noun", style: .Default){action -> Void in
+            
+            self.manager.setType(haikuWordTypes.noun)
+            self.wordTextField.placeholder = "Enter a noun"
+            self.wordTextField.text = ""
+            print("Changed To Noun")
+            self.fromType=false
+            
+            self.manager.currentHaiku = nil
+            self.manager.currentWord = nil
+            self.repeatButton.alpha = 0
+            
+            changerAlert.dismissViewControllerAnimated(true, completion: nil)})
+        
+        changerAlert.addAction(UIAlertAction(title: "Verb", style: .Default){action -> Void in
+            
+            self.manager.setType(haikuWordTypes.verb)
+            self.wordTextField.placeholder = "Enter a verb"
+            self.wordTextField.text = ""
+            print("Changed To Verb")
+            self.fromType=false
+            
+            self.manager.currentHaiku = nil
+            self.manager.currentWord = nil
+            self.repeatButton.alpha = 0
+            
+            changerAlert.dismissViewControllerAnimated(true, completion: nil)})
+        
+        changerAlert.addAction(UIAlertAction(title: "Adjective", style: .Default){action -> Void in
+            
+            self.manager.setType(haikuWordTypes.adjective)
+            self.wordTextField.placeholder = "Enter an adjective"
+            self.wordTextField.text = ""
+            print("Changed To Adjective")
+            self.fromType=false
+            
+            self.manager.currentHaiku = nil
+            self.manager.currentWord = nil
+            self.repeatButton.alpha = 0
+            
+            changerAlert.dismissViewControllerAnimated(true, completion: nil)})
+        
+        self.presentViewController(changerAlert, animated: true, completion: nil)
+    }
+    
 }
 
