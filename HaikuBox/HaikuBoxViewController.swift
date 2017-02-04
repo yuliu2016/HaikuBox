@@ -31,12 +31,12 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         return true
     }
     
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
-        if motion == .MotionShake {
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
             if manager.currentWord == nil {
                 haikuDisplay.text = "You havn't entered a word yet"
                 return
@@ -47,7 +47,7 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -55,7 +55,7 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
     /*
     Converts the haiku and make it display on haikuDisplay
     */
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         
         if var text = textField.text {
             if !self.fromType && !textField.text!.isEmpty{
@@ -63,7 +63,7 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
                 let formatted = manager.oneWord(text)
                 haikuDisplay.text = formatted
                 manager.currentWord = text
-                text.replaceRange(text.startIndex...text.startIndex, with: String(text[text.startIndex]).uppercaseString)
+                text.replaceSubrange(text.startIndex...text.startIndex, with: String(text[text.startIndex]).uppercased())
                 titleLabel.text = text
                 titleLabel.alpha = 1
                 repeatButton.alpha = 1
@@ -127,16 +127,16 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
         haikuDisplay.text = formatted
     }
     
-    @IBAction func typeChanger(sender:AnyObject){
+    @IBAction func typeChanger(_ sender:AnyObject){
         self.fromType=true;
-        let changerAlert = UIAlertController(title: "Choose the Part of Speech", message: nil, preferredStyle: .Alert)
+        let changerAlert = UIAlertController(title: "Choose the Part of Speech", message: nil, preferredStyle: .alert)
         
-        changerAlert.addAction(UIAlertAction(title: "Cancel", style: .Cancel){action -> Void in
+        changerAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel){action -> Void in
             
-            changerAlert.dismissViewControllerAnimated(true, completion: nil)
+            changerAlert.dismiss(animated: true, completion: nil)
             self.fromType=false})
         
-        changerAlert.addAction(UIAlertAction(title: "Noun", style: .Default){action -> Void in
+        changerAlert.addAction(UIAlertAction(title: "Noun", style: .default){action -> Void in
             
             self.manager.setType(haikuWordTypes.noun)
             self.wordTextField.placeholder = "Enter a noun"
@@ -148,9 +148,9 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
             self.manager.currentWord = nil
             self.repeatButton.alpha = 0
             
-            changerAlert.dismissViewControllerAnimated(true, completion: nil)})
+            changerAlert.dismiss(animated: true, completion: nil)})
         
-        changerAlert.addAction(UIAlertAction(title: "Verb", style: .Default){action -> Void in
+        changerAlert.addAction(UIAlertAction(title: "Verb", style: .default){action -> Void in
             
             self.manager.setType(haikuWordTypes.verb)
             self.wordTextField.placeholder = "Enter a verb"
@@ -162,9 +162,9 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
             self.manager.currentWord = nil
             self.repeatButton.alpha = 0
             
-            changerAlert.dismissViewControllerAnimated(true, completion: nil)})
+            changerAlert.dismiss(animated: true, completion: nil)})
         
-        changerAlert.addAction(UIAlertAction(title: "Adjective", style: .Default){action -> Void in
+        changerAlert.addAction(UIAlertAction(title: "Adjective", style: .default){action -> Void in
             
             self.manager.setType(haikuWordTypes.adjective)
             self.wordTextField.placeholder = "Enter an adjective"
@@ -176,9 +176,9 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
             self.manager.currentWord = nil
             self.repeatButton.alpha = 0
             
-            changerAlert.dismissViewControllerAnimated(true, completion: nil)})
+            changerAlert.dismiss(animated: true, completion: nil)})
         
-        self.presentViewController(changerAlert, animated: true, completion: nil)
+        self.present(changerAlert, animated: true, completion: nil)
     }
     
 }

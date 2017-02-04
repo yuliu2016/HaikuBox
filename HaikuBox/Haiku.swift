@@ -33,10 +33,10 @@ enum haikuWordTypes: Int {
 /*
 Joins a list of strings into one
 */
-func join(split: [String]) -> String {
+func join(_ split: [String]) -> String {
     var joinedString = ""
     for word in split {
-        joinedString.appendContentsOf(word)
+        joinedString.append(word)
         joinedString += " "
     }
     return joinedString
@@ -45,7 +45,7 @@ func join(split: [String]) -> String {
 /*
 Returns a ascending or flat counter based on the length of word types
 */
-func counter(countUp: Bool = false) -> [Int] {
+func counter(_ countUp: Bool = false) -> [Int] {
     var array: [Int] = []
     
     for count in 0..<haikuReplaceMarker.count {
@@ -101,7 +101,7 @@ class Haiku {
                 if item.1[x].count == 0 {
                     continue
                 }
-                wordset[x].appendContentsOf(item.1[x])
+                wordset[x].append(contentsOf: item.1[x])
             }
         }
         
@@ -113,17 +113,17 @@ class Haiku {
     */
     func replace(withWordSet newset: haikuWordSet) -> String {
         
-        var splitTemplate = template.componentsSeparatedByString(" ")
+        var splitTemplate = template.components(separatedBy: " ")
         var wscount = counter()
         var temp = ""
         var markerLength = 0
         
-        for (count, word) in splitTemplate.enumerate() {
+        for (count, word) in splitTemplate.enumerated() {
             for i in counter(true) {
                 if word.hasPrefix(haikuReplaceMarker[i]) {
                     markerLength = haikuReplaceMarker[i].characters.count
                     temp = word
-                    temp.removeRange(temp.startIndex..<temp.startIndex.advancedBy(markerLength))
+                    temp.removeSubrange(temp.startIndex..<temp.characters.index(temp.startIndex, offsetBy: markerLength))
                     splitTemplate[count] = newset[i][wscount[i]]
                     splitTemplate[count] += temp
                     wscount[i] += 1
@@ -152,14 +152,14 @@ class Haiku {
     /*
     Returns the template and wordset of one item
     */
-    func lineItem(lineNo: Int) -> haikuListItem {
+    func lineItem(_ lineNo: Int) -> haikuListItem {
         
         var newWordSet: haikuWordSet = [[],[],[],[]]
         var wscount = counter()
-        let lines = template.componentsSeparatedByString(haikuNewlineMarker)
+        let lines = template.components(separatedBy: haikuNewlineMarker)
         
-        for (currentLine,line) in lines.enumerate() {
-            for word in line.componentsSeparatedByString(" ") {
+        for (currentLine,line) in lines.enumerated() {
+            for word in line.components(separatedBy: " ") {
                 for i in counter(true) {
                     if word.hasPrefix(haikuReplaceMarker[i]) {
                         if wscount[i] == original[i].count {
@@ -180,7 +180,7 @@ class Haiku {
     /*
     Returns a random number within the range of the Array for the specified list
     */
-    func randIndex(type: haikuWordTypes) -> Int? {
+    func randIndex(_ type: haikuWordTypes) -> Int? {
         let count = original[type.rawValue].count
         
         if count == 0 {
@@ -190,7 +190,7 @@ class Haiku {
         return x
     }
     
-    func atRandIndex(type: haikuWordTypes) -> String? {
+    func atRandIndex(_ type: haikuWordTypes) -> String? {
         let ri = randIndex(type)
         if ri == nil {
             return "===Error==="
@@ -212,7 +212,7 @@ class HaikuManager {
     // MARK: Main Methods
     
     init() {
-        let time = UInt32(NSDate().timeIntervalSinceReferenceDate)
+        let time = UInt32(Date().timeIntervalSinceReferenceDate)
         srandom(time)
         managedHaikus = []
     }
@@ -227,7 +227,7 @@ class HaikuManager {
     /*
     A separated method for setting the type of word used to generate haikus
     */
-    func setType(type: haikuWordTypes) {
+    func setType(_ type: haikuWordTypes) {
         self.type = type
         currentHaiku = nil
     }
@@ -235,7 +235,7 @@ class HaikuManager {
     /*
     Returns a haiku string, with a random word replaced by the argument word
     */
-    func oneWord(word: String) -> String {
+    func oneWord(_ word: String) -> String {
         
         var items: [haikuListItem] = []
         for i in 0...2 {
@@ -252,7 +252,7 @@ class HaikuManager {
         currentHaiku = newHaiku
         let replaced: String
         
-        if !word.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
+        if !word.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty {
             replaced = newHaiku.replace(withOneWord: word, ofType: type, atIndex: newHaiku.randIndex(type)!)
         } else {
             replaced = newHaiku.replace(withWordSet: newHaiku.original)
@@ -262,15 +262,15 @@ class HaikuManager {
         return formatLines(replaced)
     }
     
-    func formatLines(lines: String) -> String {
-        let splitLines = lines.componentsSeparatedByString(haikuNewlineMarker)
+    func formatLines(_ lines: String) -> String {
+        let splitLines = lines.components(separatedBy: haikuNewlineMarker)
         var result = ""
         for i in splitLines {
-            var temp = i.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            var temp = i.trimmingCharacters(in: CharacterSet.whitespaces)
             if temp == "" {
                 break
             }
-            temp.replaceRange(temp.startIndex...temp.startIndex, with: String(temp[temp.startIndex]).uppercaseString)
+            temp.replaceSubrange(temp.startIndex...temp.startIndex, with: String(temp[temp.startIndex]).uppercased())
             result += temp + "\n"
         }
         return result
@@ -281,7 +281,7 @@ class HaikuManager {
     /*
     Adds a list of haiku to the existing list
     */
-    func addHaikus(newHaikus: [haikuListItem]) {
+    func addHaikus(_ newHaikus: [haikuListItem]) {
         for newHaiku in newHaikus {
             managedHaikus.append(Haiku(withCombinedData: newHaiku))
         }
@@ -302,7 +302,7 @@ class HaikuManager {
     /*
     Select a haiku from the list with the id
     */
-    func getHaikuById(id: Int) -> Haiku {
+    func getHaikuById(_ id: Int) -> Haiku {
         return managedHaikus[id]
     }
     
