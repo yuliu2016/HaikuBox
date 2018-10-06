@@ -35,7 +35,7 @@ class HaikuBoxViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             if manager.currentWord == nil {
                 haikuDisplay.text = "You havn't entered a word yet"

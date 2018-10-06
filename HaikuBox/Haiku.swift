@@ -121,9 +121,9 @@ class Haiku {
         for (count, word) in splitTemplate.enumerated() {
             for i in counter(true) {
                 if word.hasPrefix(haikuReplaceMarker[i]) {
-                    markerLength = haikuReplaceMarker[i].characters.count
+                    markerLength = haikuReplaceMarker[i].count
                     temp = word
-                    temp.removeSubrange(temp.startIndex..<temp.characters.index(temp.startIndex, offsetBy: markerLength))
+                    temp.removeSubrange(temp.startIndex..<temp.index(temp.startIndex, offsetBy: markerLength))
                     splitTemplate[count] = newset[i][wscount[i]]
                     splitTemplate[count] += temp
                     wscount[i] += 1
@@ -186,7 +186,7 @@ class Haiku {
         if count == 0 {
             return nil
         }
-        let x = random() % original[type.rawValue].count
+        let x = Int(arc4random()) % original[type.rawValue].count
         return x
     }
     
@@ -291,7 +291,7 @@ class HaikuManager {
     Select a random haiku from the managedHaikus list
     */
     func randomHaikuId() -> Int {
-        let randId = random() % managedHaikus.count
+        let randId = Int(arc4random()) % managedHaikus.count
         if randId == lastRandom {
             return randomHaikuId()
         }
